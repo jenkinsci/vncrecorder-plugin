@@ -1,0 +1,6 @@
+1. Passwort setzen
+. Konfig parameter einbauen
+Error message ausgeben, Fehlerbehandlungggg
+3.1 Mögliche Fehlerfälle durchgeghen
+4. Logausgaben
+5. Static modifiers entfernen
