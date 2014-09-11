@@ -46,4 +46,5 @@
     <developerConnection>scm:svn:https://svn.jenkins-ci.org/trunk/hudson/plugins/vncrecorder</developerConnection>
     <url>https://svn.jenkins-ci.org/trunk/hudson/plugins/vncrecorder</url>
   </scm>
+<url>http://wiki.jenkins-ci.org/display/JENKINS/VncRecorder</url>
 </project>
