@@ -1,0 +1,30 @@
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form">
+  <!--
+    This jelly script is used for per-project configuration.
+
+    See global.jelly for a general discussion about jelly script.
+  -->
+
+  <!--
+    Creates a text field that shows the value of the "name" property.
+    When submitted, it will be passed to the corresponding constructor parameter.
+  -->
+  
+<f:entry title="VNC server" field="vncServ">
+<f:textbox default="${descriptor.getDefaultVncServ()}"/>
+ </f:entry>
+  
+<f:entry title="VNC password file" field="vncPasswFilePath">
+<f:textbox default="${descriptor.getDefaultPasswdFile()}"/>
+ </f:entry>
+ 
+ 
+ <f:entry field="setDisplay">
+      <f:checkbox default="true"/>
+      <label class="attach-previous">${%Set DISPLAY for this build on value of 'VNC server'}</label>
+    </f:entry>
+
+</j:jelly>
+
+
+
