@@ -167,7 +167,7 @@ public class VncRecorderBuildWrapper extends BuildWrapper {
 	//		return DESCRIPTOR;
 	//	}
 
-	@Extension
+	@Extension(ordinal = -1)
 	public static final class DescriptorImpl extends BuildWrapperDescriptor {
 
 		public DescriptorImpl() {
