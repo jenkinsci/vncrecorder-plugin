@@ -93,16 +93,16 @@ public class VncRecorderBuildWrapper extends BuildWrapper {
 		{
 			listener.fatalError("Feature \"Record VNC session\" works only under Unix/Linux!");
 		}
-		vncServ = Util.replaceMacro(vncServ,System.getenv());
-		vncPasswFilePath = Util.replaceMacro(vncPasswFilePath,System.getenv());
-		vncLogger.info("Recording from vnc server: " + vncServ);
-		vncLogger.info("Using vnc passwd file: " + vncPasswFilePath);
+		String vncServReplaced = Util.replaceMacro(vncServ,build.getEnvironment(listener));
+		String vncPasswFilePathReplaced = Util.replaceMacro(vncPasswFilePath,build.getEnvironment(listener));
+		vncLogger.info("Recording from vnc server: " + vncServReplaced);
+		vncLogger.info("Using vnc passwd file: " + vncPasswFilePathReplaced);
 		vncLogger.setLevel(Level.WARN);
 		//		listener.getLogger().printf("Using vnc passwd file: %s\n",vncPasswFilePath);	
 	
 
-		File vncPasswFile = new File(vncPasswFilePath);
-		if (vncPasswFilePath.isEmpty())
+		File vncPasswFile = new File(vncPasswFilePathReplaced);
+		if (vncPasswFilePathReplaced.isEmpty())
 		{
 			vncLogger.warn("VNC password file is an empty string, trying vnc connection without password");
 			vncPasswFile = null;
@@ -125,7 +125,7 @@ public class VncRecorderBuildWrapper extends BuildWrapper {
 		outFileHtml = new File(outFileSwf.getAbsolutePath().replace(".swf", ".html"));
 		
 		from = new Date();
-		recordState = vr.record(vncServ, outFileSwf.getAbsolutePath(), vncPasswFile);
+		recordState = vr.record(vncServReplaced, outFileSwf.getAbsolutePath(), vncPasswFile);
 
 		return new Environment() {
 			@Override
@@ -133,7 +133,7 @@ public class VncRecorderBuildWrapper extends BuildWrapper {
 //				env.put("PATH",env.get("PATH"));
 //				env.put("DISPLAY", vncServ);
 				if (setDisplay)
-					env.put("DISPLAY",vncServ);
+					env.put("DISPLAY",Util.replaceMacro(vncServ,env));
 			}
 			@Override
 			public boolean tearDown(AbstractBuild build, BuildListener listener)
