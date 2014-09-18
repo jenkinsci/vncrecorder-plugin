@@ -1,32 +1,22 @@
 package org.jenkinsci.plugins.vncrecorder;
 import hudson.Extension;
 import hudson.Launcher;
-import hudson.Launcher.ProcStarter;
 import hudson.Util;
 import hudson.model.BuildListener;
 import hudson.model.Item;
-import hudson.model.TaskListener;
 import hudson.model.AbstractBuild;
 import hudson.model.AbstractProject;
 import hudson.tasks.BuildWrapper;
 import hudson.tasks.BuildWrapperDescriptor;
-import hudson.tasks.Messages;
 import hudson.util.FormValidation;
-import hudson.util.FormValidation.CheckMethod;
 
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Date;
-import java.util.List;
 import java.util.Map;
-import java.util.StringTokenizer;
 import java.util.concurrent.Future;
 
-import jenkins.model.Jenkins;
-
-import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.SystemUtils;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
@@ -38,7 +28,7 @@ import org.kohsuke.stapler.QueryParameter;
 
 public class VncRecorderBuildWrapper extends BuildWrapper {
 
-	private Future<?> recordState;
+	private Future<Integer> recordState;
 	private File outFileSwf;
 	private File outFileHtml;
 
@@ -159,13 +149,7 @@ public class VncRecorderBuildWrapper extends BuildWrapper {
 		};
 
 	}
-	//	@Extension
-	//	public static final DescriptorImpl DESCRIPTOR = new DescriptorImpl();
-	//
-	//	@Override
-	//	public Descriptor<BuildWrapper> getDescriptor() {
-	//		return DESCRIPTOR;
-	//	}
+
 
 	@Extension(ordinal = -1)
 	public static final class DescriptorImpl extends BuildWrapperDescriptor {
@@ -199,30 +183,6 @@ public class VncRecorderBuildWrapper extends BuildWrapper {
 				
 //				String vnsServCom = "Example for start of vncserver: " + value.split(":").length == 2 : ;
 				return FormValidation.okWithMarkup("<strong><font color=\"blue\">Please, make sure that your vncserer is running on '" + value  + "'</font></strong>");
-//	          p2.stdout(vncLogger);
-	            
-	            
-//	            StringTokenizer tokens = new StringTokenizer(Util.fixNull(value),",");
-//	            boolean hasProjects = false;
-//	            while(tokens.hasMoreTokens()) {
-//	                String projectName = tokens.nextToken().trim();
-//	                if (StringUtils.isNotBlank(projectName)) {
-//	                	Item item = Jenkins.getInstance().getItem(projectName,project,Item.class); // only works after version 1.410
-//	                    if(item==null){
-//	                        return FormValidation.error(Messages.BuildTrigger_NoSuchProject(projectName,AbstractProject.findNearest(projectName).getName()));
-//	                    }
-//	                    if(!(item instanceof AbstractProject)){
-//	                        return FormValidation.error(Messages.BuildTrigger_NotBuildable(projectName));
-//	                    }
-//	                    hasProjects = true;
-//	                }
-//	            }
-//	            if (!hasProjects) {
-////	            	return FormValidation.error(Messages.BuildTrigger_NoProjectSpecified()); // only works with Jenkins version built after 2011-01-30
-//	            	return FormValidation.error("No project specified");
-//	            }
-
-//	            return FormValidation.ok();
 	        }
 		 
 
