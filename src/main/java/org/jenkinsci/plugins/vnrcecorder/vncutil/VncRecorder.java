@@ -4,7 +4,7 @@ import java.io.File;
 import java.util.concurrent.Future;
 
 public class VncRecorder extends VncProcess{
-	private volatile static Future<?> recordingState;
+	private volatile static Future<Integer> recordingState;
 /*
  * vnc2swf
  * xorg-x11-server-Xvfb
@@ -21,7 +21,7 @@ public class VncRecorder extends VncProcess{
 		recordingState.cancel(true);		
 	}
 
-	public Future<?> record(String vncServ, String targetFile, File vncPassw) 
+	public Future<Integer> record(String vncServ, String targetFile, File vncPassw) 
 	{
 		logger.info("Recording from server: " + vncServ + " into " + targetFile);
 		VncRecorderCallable vn = new VncRecorderCallable(vncServ, targetFile,vncPassw);
