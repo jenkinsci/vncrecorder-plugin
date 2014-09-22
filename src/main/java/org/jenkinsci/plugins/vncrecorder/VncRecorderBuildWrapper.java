@@ -28,15 +28,9 @@ import org.kohsuke.stapler.QueryParameter;
 
 public class VncRecorderBuildWrapper extends BuildWrapper {
 
-	private Future<Integer> recordState;
-	private File outFileSwf;
-	private File outFileHtml;
 
-	private Date from;
-	private Date to;
 	private String vncServ;
 	private String vncPasswFilePath;
-	public Logger vncLogger;
 	private Boolean setDisplay = false;
 
 	@DataBoundConstructor
@@ -78,7 +72,7 @@ public class VncRecorderBuildWrapper extends BuildWrapper {
 			final BuildListener listener) throws IOException, InterruptedException
 	{
 		final VncRecorder vr = new VncRecorder();
-		vncLogger = vr.getLoggerForPrintStream(listener.getLogger());
+		Logger vncLogger = vr.getLoggerForPrintStream(listener.getLogger());
 		if (!launcher.isUnix())
 		{
 			listener.fatalError("Feature \"Record VNC session\" works only under Unix/Linux!");
@@ -111,11 +105,11 @@ public class VncRecorderBuildWrapper extends BuildWrapper {
 		}
 
 		String outFileBase = build.getEnvironment(listener).get("JOB_NAME") + "_" +  build.getEnvironment(listener).get("BUILD_NUMBER") + ".swf";
-		outFileSwf = new File(artifactsDir,outFileBase); 
-		outFileHtml = new File(outFileSwf.getAbsolutePath().replace(".swf", ".html"));
+		final File outFileSwf = new File(artifactsDir,outFileBase); 
+		final File outFileHtml = new File(outFileSwf.getAbsolutePath().replace(".swf", ".html"));
 		
-		from = new Date();
-		recordState = vr.record(vncServReplaced, outFileSwf.getAbsolutePath(), vncPasswFile);
+		final Date from = new Date();
+		final Future<Integer> recordState = vr.record(vncServReplaced, outFileSwf.getAbsolutePath(), vncPasswFile);
 
 		return new Environment() {
 			@Override
@@ -128,7 +122,7 @@ public class VncRecorderBuildWrapper extends BuildWrapper {
 			@Override
 			public boolean tearDown(AbstractBuild build, BuildListener listener)
 					throws IOException, InterruptedException {
-				to = new Date();
+				final Date to = new Date();
 				recordState.cancel(true);
 				Thread.sleep(1000);
 
