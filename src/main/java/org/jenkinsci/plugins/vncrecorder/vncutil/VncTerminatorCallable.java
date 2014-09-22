@@ -1,4 +1,4 @@
-package org.jenkinsci.plugins.vnrcecorder.vncutil;
+package org.jenkinsci.plugins.vncrecorder.vncutil;
 
 import java.util.concurrent.Callable;
 

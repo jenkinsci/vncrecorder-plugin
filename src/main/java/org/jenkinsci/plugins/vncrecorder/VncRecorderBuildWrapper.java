@@ -20,7 +20,7 @@ import java.util.concurrent.Future;
 import org.apache.commons.lang.SystemUtils;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-import org.jenkinsci.plugins.vnrcecorder.vncutil.VncRecorder;
+import org.jenkinsci.plugins.vncrecorder.vncutil.VncRecorder;
 import org.kohsuke.stapler.AncestorInPath;
 import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.QueryParameter;
