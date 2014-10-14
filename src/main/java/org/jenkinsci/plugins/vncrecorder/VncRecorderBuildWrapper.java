@@ -164,7 +164,7 @@ public class VncRecorderBuildWrapper extends BuildWrapper {
 			public void buildEnvVars(Map<String, String> env) {
 				//				env.put("PATH",env.get("PATH"));
 				//				env.put("DISPLAY", vncServ);
-				if (setDisplay)
+				if (setDisplay && env != null && vncServ != null)
 					env.put("DISPLAY",Util.replaceMacro(vncServ,env));
 			}
 			@Override
