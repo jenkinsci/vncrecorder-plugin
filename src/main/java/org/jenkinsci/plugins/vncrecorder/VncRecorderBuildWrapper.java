@@ -28,6 +28,7 @@ import hudson.Launcher;
 import hudson.Util;
 import hudson.model.BuildListener;
 import hudson.model.Item;
+import hudson.model.Result;
 import hudson.model.AbstractBuild;
 import hudson.model.AbstractProject;
 import hudson.model.Hudson;
@@ -62,13 +63,15 @@ public class VncRecorderBuildWrapper extends BuildWrapper {
 	private String vncServ;
 	private String vncPasswFilePath;
 	private Boolean setDisplay = false;
+	private Boolean removeIfSuccessful = false;
 
 	@DataBoundConstructor
-	public VncRecorderBuildWrapper(String vncServ, String vncPasswFilePath, Boolean setDisplay) 
+	public VncRecorderBuildWrapper(String vncServ, String vncPasswFilePath, Boolean setDisplay, Boolean removeIfSuccessful) 
 	{
 		this.vncServ = vncServ;
 		this.vncPasswFilePath = vncPasswFilePath;
 		this.setDisplay  = setDisplay;
+		this.removeIfSuccessful = removeIfSuccessful;
 	}
 
 
@@ -96,6 +99,15 @@ public class VncRecorderBuildWrapper extends BuildWrapper {
 		this.setDisplay = setDisplay;
 	}
 
+	public Boolean getRemoveIfSuccessful() {
+		return removeIfSuccessful;
+	}
+
+
+	public void setRemoveIfSuccessful(Boolean removeIfSuccessful) {
+		this.removeIfSuccessful = removeIfSuccessful;
+	}
+
 
 	@Override
 	public Environment setUp(@SuppressWarnings("rawtypes")AbstractBuild build, Launcher launcher,
@@ -119,7 +131,7 @@ public class VncRecorderBuildWrapper extends BuildWrapper {
 		}
 		
 		final VncRecorder vr = new VncRecorder();
-		Logger vncLogger = vr.getLoggerForPrintStream(listener.getLogger());
+		final Logger vncLogger = vr.getLoggerForPrintStream(listener.getLogger());
 		if (!launcher.isUnix())
 		{
 			listener.fatalError("Feature \"Record VNC session\" works only under Unix/Linux!");
@@ -173,12 +185,22 @@ public class VncRecorderBuildWrapper extends BuildWrapper {
 				final Date to = new Date();
 				recordState.cancel(true);
 				Thread.sleep(1000);
+				
+				if ((removeIfSuccessful && outFileSwf.exists()) && (build.getResult() == Result.SUCCESS || build.getResult() == null)  )
+				{
+					vncLogger.info("Build successful: Removing video file " + outFileSwf.getAbsolutePath() + " \n");
+					outFileSwf.delete();
+					outFileHtml.delete();
+					return true;
+				}
 
 				if (!outFileSwf.exists())
 				{
 					listener.error("File " + outFileSwf.getAbsolutePath() +" doesn't exist. \nFeature \"Record VNC session\" failed!");
 					return false;
 				}  
+				
+				
 				SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd 'T' HH:mm:ss");
 				listener.hyperlink("artifact/" + outFileHtml.getName(),"Video from " + sf.format(from) + " to " + sf.format(to));
 				listener.getLogger().print("\n");

@@ -23,6 +23,11 @@
       <f:checkbox default="true"/>
       <label class="attach-previous">${%Set DISPLAY for this build on value of 'VNC server'}</label>
     </f:entry>
+    
+ <f:entry field="removeIfSuccessful">
+      <f:checkbox default="false"/>
+      <label class="attach-previous">${%Saving disk space: Remove videos of successful builds }</label>
+  </f:entry>    
 
 </j:jelly>
 
