@@ -18,16 +18,20 @@
 <f:textbox default="${descriptor.getDefaultPasswdFile()}"/>
  </f:entry>
  
+ <f:entry title="Base filename of output html/swf files" field="outFileName">
+<f:textbox default="${descriptor.getDefaultOutFileName()}"/>
+ </f:entry>
+ 
+ <f:entry field="removeIfSuccessful">
+      <f:checkbox default="false"/>
+      <label class="attach-previous">${%Saving disk space: Remove videos of successful builds }</label>
+  </f:entry>    
  
  <f:entry field="setDisplay">
       <f:checkbox default="true"/>
       <label class="attach-previous">${%Set DISPLAY for this build on value of 'VNC server'}</label>
     </f:entry>
     
- <f:entry field="removeIfSuccessful">
-      <f:checkbox default="false"/>
-      <label class="attach-previous">${%Saving disk space: Remove videos of successful builds }</label>
-  </f:entry>    
 
 </j:jelly>
 
