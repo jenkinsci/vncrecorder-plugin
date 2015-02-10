@@ -10,7 +10,7 @@
 
 	<groupId>org.jenkins-ci.plugins</groupId>
 	<artifactId>vncrecorder</artifactId>
-	<version>1.20-SNAPSHOT</version>
+	<version>1.19-SNAPSHOT</version>
 	<packaging>hpi</packaging>
 
 	<licenses>
