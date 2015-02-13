@@ -72,7 +72,7 @@ public class VncRecorderBuildWrapper extends BuildWrapper {
 		this.vncServ = vncServ;
 		this.vncPasswFilePath = vncPasswFilePath;
 		this.setDisplay  = setDisplay;
-		this.removeIfSuccessful = removeIfSuccessful;
+		this.setRemoveIfSuccessful(removeIfSuccessful);
 		this.setOutFileName(outFileName);
 	}
 
@@ -120,8 +120,12 @@ public class VncRecorderBuildWrapper extends BuildWrapper {
 	}
 
 
-	public void setRemoveIfSuccessful(Boolean removeIfSuccessful) {
-		this.removeIfSuccessful = removeIfSuccessful;
+	public void setRemoveIfSuccessful(Boolean removeIfSuccessful) 
+	{
+		if (removeIfSuccessful == null)
+			this.removeIfSuccessful = false;
+		else
+			this.removeIfSuccessful = removeIfSuccessful;
 	}
 
 
