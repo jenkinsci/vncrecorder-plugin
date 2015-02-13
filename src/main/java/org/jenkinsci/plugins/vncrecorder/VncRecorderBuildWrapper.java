@@ -82,8 +82,12 @@ public class VncRecorderBuildWrapper extends BuildWrapper {
 	}
 
 
-	public void setOutFileName(String outFileName) {
-		this.outFileName = outFileName;
+	public void setOutFileName(String outFileName)
+	{
+		if (outFileName == null || outFileName.isEmpty())
+			this.outFileName = "${JOB_NAME}_${BUILD_NUMBER}";
+		else
+			this.outFileName = outFileName;
 	}
 
 
@@ -200,7 +204,7 @@ public class VncRecorderBuildWrapper extends BuildWrapper {
 				recordState.cancel(true);
 				Thread.sleep(1000);
 
-				if ((removeIfSuccessful && outFileSwf.exists()) && (build.getResult() == Result.SUCCESS || build.getResult() == null)  )
+				if ((removeIfSuccessful && outFileSwf.exists()) && (build == null || build.getResult() == Result.SUCCESS || build.getResult() == null)  )
 				{
 					vncLogger.info("Build successful: Removing video file " + outFileSwf.getAbsolutePath() + " \n");
 					outFileSwf.delete();
