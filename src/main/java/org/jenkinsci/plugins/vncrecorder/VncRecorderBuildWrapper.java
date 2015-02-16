@@ -84,7 +84,7 @@ public class VncRecorderBuildWrapper extends BuildWrapper {
 
 	public void setOutFileName(String outFileName)
 	{
-		if (outFileName == null || outFileName.isEmpty())
+		if (outFileName == null || outFileName.isEmpty() || outFileName.equalsIgnoreCase("null"))
 			this.outFileName = "${JOB_NAME}_${BUILD_NUMBER}";
 		else
 			this.outFileName = outFileName;
