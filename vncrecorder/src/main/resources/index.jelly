@@ -1,0 +1,7 @@
+<!--
+  This view is used to render the installed plugins page.
+-->
+<div>
+  VncRecorder records screen of current build or other configured VNC session as video file and make it possible to navigate within a recorded video directly in browser.
+  This plugin can be used in combination with <a href="http://wiki.jenkins-ci.org/display/JENKINS/Xvnc+Plugin"> Xvnc plugin</a>.
+</div>
