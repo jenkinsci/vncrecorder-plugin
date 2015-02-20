@@ -160,8 +160,11 @@ public class VncRecorderBuildWrapper extends BuildWrapper {
 		String vncServReplaced = Util.replaceMacro(vncServ,build.getEnvironment(listener));
 		String vncPasswFilePathReplaced = Util.replaceMacro(vncPasswFilePath,build.getEnvironment(listener));
 		//String outFileBase = build.getEnvironment(listener).get("JOB_NAME") + "_" +  build.getEnvironment(listener).get("BUILD_NUMBER") + ".swf";
+		if (outFileName == null || outFileName.equalsIgnoreCase("null"))
+		{
+			outFileName = "${JOB_NAME}_${BUILD_NUMBER}";
+		}
 		String outFileBase =  Util.replaceMacro(outFileName,build.getEnvironment(listener)) + ".swf";
-		
 		vncLogger.info("Recording from vnc server: " + vncServReplaced);
 		vncLogger.info("Using vnc passwd file: " + vncPasswFilePathReplaced);
 		vncLogger.setLevel(Level.WARN);
@@ -187,6 +190,11 @@ public class VncRecorderBuildWrapper extends BuildWrapper {
 			artifactsDir.mkdir();
 		}
 
+		if (outFileBase == null || outFileBase.equalsIgnoreCase("null.swf"))
+		{
+			outFileBase = build.getNumber() + ".swf";
+
+		}
 		final File outFileSwf = new File(artifactsDir,outFileBase); 
 		final File outFileHtml = new File(outFileSwf.getAbsolutePath().replace(".swf", ".html"));
 
@@ -205,8 +213,14 @@ public class VncRecorderBuildWrapper extends BuildWrapper {
 			public boolean tearDown(AbstractBuild build, BuildListener listener)
 					throws IOException, InterruptedException {
 				final Date to = new Date();
-				recordState.cancel(true);
-				Thread.sleep(1000);
+				if (recordState != null)
+				{	
+					recordState.cancel(true);
+					Thread.sleep(1000);
+				}
+				if (removeIfSuccessful == null)
+					removeIfSuccessful = false;
+
 
 				if ((removeIfSuccessful && outFileSwf.exists()) && (build == null || build.getResult() == Result.SUCCESS || build.getResult() == null)  )
 				{
@@ -296,8 +310,8 @@ public class VncRecorderBuildWrapper extends BuildWrapper {
 			save();
 			return true;
 		}
-		
-		
+
+
 		public FormValidation doCheckVncServ(@AncestorInPath AbstractProject<?,?> project, @QueryParameter String value ) {
 			// Require CONFIGURE permission on this project
 			if(!project.hasPermission(Item.CONFIGURE)){
@@ -321,7 +335,7 @@ public class VncRecorderBuildWrapper extends BuildWrapper {
 			//				String vnsServCom = "Example for start of vncserver: " + value.split(":").length == 2 : ;
 			return FormValidation.okWithMarkup("<strong><font color=\"blue\">Please, make sure that your vncserer is running on '" + value  + "'</font></strong>");
 		}
-		
+
 
 		public FormValidation doCheckOutFileName(@AncestorInPath AbstractProject<?,?> project, @QueryParameter String value ) {
 			// Require CONFIGURE permission on this project
@@ -350,7 +364,7 @@ public class VncRecorderBuildWrapper extends BuildWrapper {
 		{
 			return "localhost:88";
 		}
-		
+
 
 		public String getDefaultOutFileName() {
 			return "${JOB_NAME}_${BUILD_NUMBER}";
