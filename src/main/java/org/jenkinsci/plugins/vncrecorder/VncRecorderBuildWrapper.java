@@ -158,7 +158,7 @@ public class VncRecorderBuildWrapper extends BuildWrapper {
 			return null;
 		}
 		String vncServReplaced = Util.replaceMacro(vncServ,build.getEnvironment(listener));
-		if (vncServReplaced.indexOf(":") > 0 && vncServReplaced.split(":")[1].length() == 4 && vncServReplaced.startsWith("59") )
+		if (vncServReplaced.indexOf(":") > 0 && vncServReplaced.split(":")[1].length() == 4 && vncServReplaced.split(":")[1].startsWith("59") )
 		{
 			vncServReplaced = vncServReplaced.replace(":59", ":");
 		}
