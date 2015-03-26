@@ -158,6 +158,11 @@ public class VncRecorderBuildWrapper extends BuildWrapper {
 			return null;
 		}
 		String vncServReplaced = Util.replaceMacro(vncServ,build.getEnvironment(listener));
+		if (vncServReplaced.indexOf(":") > 0 && vncServReplaced.split(":")[1].length() == 4 && vncServReplaced.startsWith("59") )
+		{
+			vncServReplaced = vncServReplaced.replace(":59", ":");
+		}
+		
 		String vncPasswFilePathReplaced = Util.replaceMacro(vncPasswFilePath,build.getEnvironment(listener));
 		//String outFileBase = build.getEnvironment(listener).get("JOB_NAME") + "_" +  build.getEnvironment(listener).get("BUILD_NUMBER") + ".swf";
 		if (outFileName == null || outFileName.equalsIgnoreCase("null"))
