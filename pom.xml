@@ -10,7 +10,7 @@
 
 	<groupId>org.jenkins-ci.plugins</groupId>
 	<artifactId>vncrecorder</artifactId>
-	<version>1.21-SNAPSHOT</version>
+	<version>1.21</version>
 	<packaging>hpi</packaging>
 
 	<licenses>
@@ -42,9 +42,9 @@
 		</developer>
 	</developers>
  <scm>
-    <connection>scm:svn:https://svn.jenkins-ci.org/trunk/hudson/plugins/vncrecorder</connection>
-    <developerConnection>scm:svn:https://svn.jenkins-ci.org/trunk/hudson/plugins/vncrecorder</developerConnection>
-    <url>https://svn.jenkins-ci.org/trunk/hudson/plugins/vncrecorder</url>
+    <connection>scm:svn:https://svn.jenkins-ci.org/tags/vncrecorder-1.21</connection>
+    <developerConnection>scm:svn:https://svn.jenkins-ci.org/tags/vncrecorder-1.21</developerConnection>
+    <url>https://svn.jenkins-ci.org/tags/vncrecorder-1.21</url>
   </scm>
 <url>http://wiki.jenkins-ci.org/display/JENKINS/VncRecorder+Plugin</url>
 	<name>VncRecorder Plugin</name>
