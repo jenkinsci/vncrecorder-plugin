@@ -152,7 +152,7 @@ public class VncRecorderBuildWrapper extends BuildWrapper {
 
 		final VncRecorder vr = new VncRecorder();
 		final Logger vncLogger = vr.getLoggerForPrintStream(listener.getLogger());
-		if (!launcher.isUnix())
+		if (!SystemUtils.IS_OS_UNIX)
 		{
 			listener.fatalError("Feature \"Record VNC session\" works only under Unix/Linux!");
 			return null;
