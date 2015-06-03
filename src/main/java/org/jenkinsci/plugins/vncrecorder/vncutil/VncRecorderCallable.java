@@ -49,10 +49,10 @@ public class VncRecorderCallable extends VncProcess implements Callable<Integer>
 		
 		//				String[] com = new String []{"/usr/bin/flvrec.py", "-r1","-o", targetPath, vncServ};
 		//String[] com = new String []{"vnc2swf","-o", targetPath,"-P", "/home/dimitri/.vnc/passwd_status", "-t", "swf5", "-n", "-e", "0", vncServ};
-		String[] com = new String []{vnc2swfPath,"-o", targetPath, "-t", "swf5", "-n", "-e", "0", vncServ};
+		String[] com = new String []{vnc2swfPath,"-o", targetPath, "-t", "swf7", "-n", "-e", "0", vncServ};
 		if (vncPasswFile != null)
 		{
-			com = new String []{vnc2swfPath,"-o", targetPath,"-P", vncPasswFile.getAbsolutePath(), "-t", "swf5", "-n", "-e", "0", vncServ};
+			com = new String []{vnc2swfPath,"-o", targetPath,"-P", vncPasswFile.getAbsolutePath(), "-t", "swf7", "-n", "-e", "0", vncServ};
 		}
 
 		try {
