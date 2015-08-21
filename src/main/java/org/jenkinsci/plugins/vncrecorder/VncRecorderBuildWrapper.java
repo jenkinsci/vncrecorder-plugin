@@ -23,19 +23,6 @@
  * SUCH DAMAGE.
  */
 package org.jenkinsci.plugins.vncrecorder;
-import hudson.Extension;
-import hudson.Launcher;
-import hudson.Util;
-import hudson.model.BuildListener;
-import hudson.model.Item;
-import hudson.model.Result;
-import hudson.model.AbstractBuild;
-import hudson.model.AbstractProject;
-import hudson.model.Hudson;
-import hudson.tasks.BuildWrapper;
-import hudson.tasks.BuildWrapperDescriptor;
-import hudson.util.FormValidation;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -45,16 +32,26 @@ import java.util.Date;
 import java.util.Map;
 import java.util.concurrent.Future;
 
-import net.sf.json.JSONObject;
-
 import org.apache.commons.lang.SystemUtils;
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
 import org.jenkinsci.plugins.vncrecorder.vncutil.VncRecorder;
 import org.kohsuke.stapler.AncestorInPath;
 import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.QueryParameter;
 import org.kohsuke.stapler.StaplerRequest;
+
+import hudson.Extension;
+import hudson.Launcher;
+import hudson.Util;
+import hudson.model.AbstractBuild;
+import hudson.model.AbstractProject;
+import hudson.model.BuildListener;
+import hudson.model.Hudson;
+import hudson.model.Item;
+import hudson.model.Result;
+import hudson.tasks.BuildWrapper;
+import hudson.tasks.BuildWrapperDescriptor;
+import hudson.util.FormValidation;
+import net.sf.json.JSONObject;
 
 
 public class VncRecorderBuildWrapper extends BuildWrapper {
@@ -151,7 +148,8 @@ public class VncRecorderBuildWrapper extends BuildWrapper {
 		}
 
 		final VncRecorder vr = new VncRecorder();
-		final Logger vncLogger = vr.getLoggerForPrintStream(listener.getLogger());
+		vr.setLoggingStream(listener.getLogger());
+//		final Logger vncLogger = vr.getLoggerForPrintStream(listener.getLogger());
 		if (!SystemUtils.IS_OS_UNIX)
 		{
 			listener.fatalError("Feature \"Record VNC session\" works only under Unix/Linux!");
@@ -170,21 +168,20 @@ public class VncRecorderBuildWrapper extends BuildWrapper {
 			outFileName = "${JOB_NAME}_${BUILD_NUMBER}";
 		}
 		String outFileBase =  Util.replaceMacro(outFileName,build.getEnvironment(listener)) + ".swf";
-		vncLogger.info("Recording from vnc server: " + vncServReplaced);
-		vncLogger.info("Using vnc passwd file: " + vncPasswFilePathReplaced);
-		vncLogger.setLevel(Level.WARN);
+		listener.getLogger().println("Recording from vnc server: " + vncServReplaced);
+		listener.getLogger().println("Using vnc passwd file: " + vncPasswFilePathReplaced);
 		//		listener.getLogger().printf("Using vnc passwd file: %s\n",vncPasswFilePath);	
 
 
 		File vncPasswFile = new File(vncPasswFilePathReplaced);
 		if (vncPasswFilePathReplaced.isEmpty())
 		{
-			vncLogger.warn("VNC password file is an empty string, trying vnc connection without password");
+			listener.getLogger().println("VNC password file is an empty string, trying vnc connection without password");
 			vncPasswFile = null;
 		}
 		else if (!vncPasswFile.exists())
 		{
-			vncLogger.warn("Can't find " +vncPasswFile  +", trying vnc connection without password ");
+			listener.getLogger().println("Can't find " +vncPasswFile  +", trying vnc connection without password ");
 			vncPasswFile = null;
 		}
 
@@ -229,7 +226,7 @@ public class VncRecorderBuildWrapper extends BuildWrapper {
 
 				if ((removeIfSuccessful && outFileSwf.exists()) && (build == null || build.getResult() == Result.SUCCESS || build.getResult() == null)  )
 				{
-					vncLogger.info("Build successful: Removing video file " + outFileSwf.getAbsolutePath() + " \n");
+					listener.getLogger().println("Build successful: Removing video file " + outFileSwf.getAbsolutePath() + " \n");
 					outFileSwf.delete();
 					outFileHtml.delete();
 					return true;

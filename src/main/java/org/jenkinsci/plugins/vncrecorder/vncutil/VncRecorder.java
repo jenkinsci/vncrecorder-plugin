@@ -47,7 +47,7 @@ public class VncRecorder extends VncProcess{
 
 	public Future<Integer> record(String vncServ, String targetFile, File vncPassw, String vnc2swfPath) 
 	{
-		logger.info("Recording from server: " + vncServ + " into " + targetFile);
+		loggerStream.println("Recording from server: " + vncServ + ", to: " + targetFile);
 		VncRecorderCallable vn = new VncRecorderCallable(vncServ, targetFile,vncPassw,vnc2swfPath);
 		recordingState = execServ.submit(vn);
 		return recordingState;

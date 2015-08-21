@@ -67,36 +67,36 @@ public class VncRecorderCallable extends VncProcess implements Callable<Integer>
 					rc = proc.waitFor();
 				} catch (InterruptedException e)
 				{
-					logger.info("Command: " + Arrays.toString(com) + " canceled");
+					loggerStream.println("Command: " + Arrays.toString(com) + " canceled");
 					stop();
 					return -999;
 				}
 				catch (Exception e)
 				{
-					logger.error("Command: " + Arrays.toString(com) + " failed",e);
+					loggerStream.println("Command: " + Arrays.toString(com) + " failed" + e.getMessage());
 					terminatorServ.submit(term);
 					return -999;
 				}
 				if (rc != 0)
 				{
-					logger.error("Command: " + Arrays.toString(com) + " returned: " + rc + ", trying " + i + " from " + 50);
+					loggerStream.println("Command: " + Arrays.toString(com) + " returned: " + rc + ", trying " + i + " from " + 50);
 					String line;
 					BufferedReader in = new BufferedReader(new InputStreamReader(process.getInputStream()));
 					BufferedReader errIn = new BufferedReader(new InputStreamReader(process.getErrorStream()));
 					while (( line = in.readLine()) != null)
 					{
-						logger.info(line);
+						loggerStream.println(line);
 					}
 					while (( line = errIn.readLine()) != null)
 					{
-						logger.error(line);
+						loggerStream.println(line);
 					}
 					Thread.sleep(5000);
 				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			logger.error("Error in VncRecorderCallable", e);
+			loggerStream.println("Error in VncRecorderCallable" + e.getMessage());
 		}
 		return -1;
 	}
