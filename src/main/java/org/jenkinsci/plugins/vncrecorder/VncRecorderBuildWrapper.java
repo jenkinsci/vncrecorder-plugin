@@ -62,15 +62,18 @@ public class VncRecorderBuildWrapper extends BuildWrapper {
 	private String  outFileName = "${JOB_NAME}_${BUILD_NUMBER}";
 	private Boolean setDisplay = false;
 	private Boolean removeIfSuccessful = false;
+	private Boolean failJobIfFailed = true;
+	
 
 	@DataBoundConstructor
-	public VncRecorderBuildWrapper(String vncServ, String vncPasswFilePath, String outFileName, Boolean setDisplay, Boolean removeIfSuccessful) 
+	public VncRecorderBuildWrapper(String vncServ, String vncPasswFilePath, String outFileName, Boolean setDisplay, Boolean removeIfSuccessful, Boolean failJobIfFailed) 
 	{
 		this.vncServ = vncServ;
 		this.vncPasswFilePath = vncPasswFilePath;
 		this.setDisplay  = setDisplay;
 		this.setRemoveIfSuccessful(removeIfSuccessful);
 		this.setOutFileName(outFileName);
+		this.setFailJobIfFailed(failJobIfFailed);
 	}
 
 
@@ -111,6 +114,21 @@ public class VncRecorderBuildWrapper extends BuildWrapper {
 	public void setSetDisplay(Boolean setDisplay) {
 		this.setDisplay = setDisplay;
 	}
+	
+	
+	public Boolean getFailJobIfFailed() {
+      return failJobIfFailed;
+  }
+
+
+  public void setFailJobIfFailed(Boolean failJobIfFailed) 
+  {
+      if (failJobIfFailed == null)
+          this.failJobIfFailed = true;
+      else
+          this.failJobIfFailed = failJobIfFailed;
+  }
+  
 
 	public Boolean getRemoveIfSuccessful() {
 		return removeIfSuccessful;
@@ -235,7 +253,10 @@ public class VncRecorderBuildWrapper extends BuildWrapper {
 				if (!outFileSwf.exists())
 				{
 					listener.error("File " + outFileSwf.getAbsolutePath() +" doesn't exist. \nFeature \"Record VNC session\" failed!");
-					return false;
+					if (failJobIfFailed)
+					    return false;
+					else
+					  return true;
 				}  
 
 

@@ -27,10 +27,15 @@
       <label class="attach-previous">${%Save disk space: Remove videos of successful builds }</label>
   </f:entry>    
  
- <f:entry field="setDisplay">
+  <f:entry field="setDisplay">
       <f:checkbox default="true"/>
-      <label class="attach-previous">${%Set DISPLAY for this build on value of 'VNC server'}</label>
-    </f:entry>
+      <label class="attach-previous">${%Set DISPLAY for this build on value set in 'VNC server'}</label>
+  </f:entry>
+    
+  <f:entry field="failJobIfFailed">
+      <f:checkbox default="true"/>
+      <label class="attach-previous">${%The build will be marked as failed if video capture failed }</label>
+  </f:entry>  
 
 </j:jelly>
 
