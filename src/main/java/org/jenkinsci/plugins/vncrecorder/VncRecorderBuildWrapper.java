@@ -207,7 +207,10 @@ public class VncRecorderBuildWrapper extends BuildWrapper {
 		listener.getLogger().print(build.getUrl());
 		if(!artifactsDir.exists())
 		{
-			artifactsDir.mkdir();
+			if (!artifactsDir.mkdir())
+			{
+			  listener.error("Can't create " + artifactsDir.getAbsolutePath());
+			}
 		}
 
 		if (outFileBase == null || outFileBase.equalsIgnoreCase("null.swf"))
@@ -245,8 +248,13 @@ public class VncRecorderBuildWrapper extends BuildWrapper {
 				if ((removeIfSuccessful && outFileSwf.exists()) && (build == null || build.getResult() == Result.SUCCESS || build.getResult() == null)  )
 				{
 					listener.getLogger().println("Build successful: Removing video file " + outFileSwf.getAbsolutePath() + " \n");
-					outFileSwf.delete();
-					outFileHtml.delete();
+					
+					if(!outFileSwf.delete())
+					 listener.error("Can't delete " + outFileSwf.getAbsolutePath());
+					
+					if(!outFileHtml.delete())
+	                     listener.error("Can't delete " + outFileHtml.getAbsolutePath());
+					
 					return true;
 				}
 

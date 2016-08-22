@@ -29,6 +29,7 @@ import java.io.File;
 import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.concurrent.Callable;
+import java.util.concurrent.Future;
 
 public class VncRecorderCallable extends VncProcess implements Callable<Integer>  {
 	private String vncServ;
@@ -74,7 +75,8 @@ public class VncRecorderCallable extends VncProcess implements Callable<Integer>
 				catch (Exception e)
 				{
 					loggerStream.println("Command: " + Arrays.toString(com) + " failed" + e.getMessage());
-					terminatorServ.submit(term);
+					if(terminatorServ.submit(term).isDone())
+					  loggerStream.println("Killed");
 					return -999;
 				}
 				if (rc != 0)
