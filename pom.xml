@@ -43,7 +43,7 @@
 	</developers>
 	<scm>
 		<connection>scm:github.com:jenkinsci/vncrecorder-plugin.git</connection>
-		<developerConnection>scm:git:ssh://git@github.com/jenkinsci/vncrecorder-plugin.git</developerConnection>
+		<developerConnection>scm:git:https://github.com/jenkinsci/vncrecorder-plugin.git</developerConnection>
 		<url>https://github.com/jenkinsci/vncrecorder-plugin</url>
 	</scm>
 	
