@@ -149,7 +149,7 @@ public class VncRecorderBuildWrapper extends BuildWrapper {
 			final BuildListener listener) throws IOException, InterruptedException
 	{
 		DescriptorImpl DESCRIPTOR = Hudson.getInstance().getDescriptorByType(DescriptorImpl.class);
-		String vnc2swf = Util.nullify(DESCRIPTOR.getVnc2swf());
+		String vnc2swf = Util.escape(Util.nullify(DESCRIPTOR.getVnc2swf()));
 		if(vnc2swf.equals(CANT_FIND_VNC2SWF))
 		{
 			listener.fatalError("VNC Recorder: can't find 'vnc2swf' please check your jenkins global settings!");
