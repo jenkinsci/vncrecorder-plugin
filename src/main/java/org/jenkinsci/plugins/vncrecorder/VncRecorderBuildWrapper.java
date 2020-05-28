@@ -173,19 +173,19 @@ public class VncRecorderBuildWrapper extends BuildWrapper {
 			listener.fatalError("Feature \"Record VNC session\" works only under Unix/Linux!");
 			return null;
 		}
-		String vncServReplaced = Util.replaceMacro(vncServ,build.getEnvironment(listener));
+		String vncServReplaced = Util.escape(Util.replaceMacro(vncServ,build.getEnvironment(listener)));
 		if (vncServReplaced.indexOf(":") > 0 && vncServReplaced.split(":")[1].length() == 4 && vncServReplaced.split(":")[1].startsWith("59") )
 		{
 			vncServReplaced = vncServReplaced.replace(":59", ":");
 		}
 		
-		String vncPasswFilePathReplaced = Util.replaceMacro(vncPasswFilePath,build.getEnvironment(listener));
+		String vncPasswFilePathReplaced = Util.escape(Util.replaceMacro(vncPasswFilePath,build.getEnvironment(listener)));
 		//String outFileBase = build.getEnvironment(listener).get("JOB_NAME") + "_" +  build.getEnvironment(listener).get("BUILD_NUMBER") + ".swf";
 		if (outFileName == null || outFileName.equalsIgnoreCase("null"))
 		{
 			outFileName = "${JOB_NAME}_${BUILD_NUMBER}";
 		}
-		String outFileBase =  Util.replaceMacro(outFileName,build.getEnvironment(listener)) + ".swf";
+		String outFileBase =  Util.escape(Util.replaceMacro(outFileName,build.getEnvironment(listener))) + ".swf";
 		listener.getLogger().println("Recording from vnc server: " + vncServReplaced);
 		listener.getLogger().println("Using vnc passwd file: " + vncPasswFilePathReplaced);
 		//		listener.getLogger().printf("Using vnc passwd file: %s\n",vncPasswFilePath);	
@@ -230,7 +230,7 @@ public class VncRecorderBuildWrapper extends BuildWrapper {
 				//				env.put("PATH",env.get("PATH"));
 				//				env.put("DISPLAY", vncServ);
 				if (setDisplay && env != null && vncServ != null)
-					env.put("DISPLAY",Util.replaceMacro(vncServ,env));
+					env.put("DISPLAY",Util.escape(Util.replaceMacro(vncServ,env)));
 			}
 			@Override
 			public boolean tearDown(AbstractBuild build, BuildListener listener)
