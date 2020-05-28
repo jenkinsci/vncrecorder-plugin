@@ -350,7 +350,7 @@ public class VncRecorderBuildWrapper extends BuildWrapper {
 			}
 			//	    		List<String> com;
 			DescriptorImpl DESCRIPTOR = Hudson.getInstance().getDescriptorByType(DescriptorImpl.class);
-			String vnc2swf = Util.nullify(DESCRIPTOR.getVnc2swf());
+			String vnc2swf = Util.escape(Util.nullify(DESCRIPTOR.getVnc2swf()));
 			try {
 				vnc2swf = vnc2swf.equals(CANT_FIND_VNC2SWF) ? "vnc2swf" : vnc2swf;
 				if(!new File(vnc2swf).exists())
@@ -364,7 +364,7 @@ public class VncRecorderBuildWrapper extends BuildWrapper {
 			}
 
 			//				String vnsServCom = "Example for start of vncserver: " + value.split(":").length == 2 : ;
-			return FormValidation.okWithMarkup("<strong><font color=\"blue\">Please, make sure that your vncserer is running on '" + value  + "'</font></strong>");
+			return FormValidation.okWithMarkup("<strong><font color=\"blue\">Please, make sure that your vncserer is running on '" + Util.escape(value)  + "'</font></strong>");
 		}
 
 
