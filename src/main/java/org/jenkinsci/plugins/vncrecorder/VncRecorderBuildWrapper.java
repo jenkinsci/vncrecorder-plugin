@@ -149,7 +149,7 @@ public class VncRecorderBuildWrapper extends BuildWrapper {
 			final BuildListener listener) throws IOException, InterruptedException
 	{
 		DescriptorImpl DESCRIPTOR = Hudson.getInstance().getDescriptorByType(DescriptorImpl.class);
-		String vnc2swf = Util.xmlEscape(Util.nullify(DESCRIPTOR.getVnc2swf()));
+		String vnc2swf = Util.nullify(DESCRIPTOR.getVnc2swf());
 		if(vnc2swf.equals(CANT_FIND_VNC2SWF))
 		{
 			listener.fatalError("VNC Recorder: can't find 'vnc2swf' please check your jenkins global settings!");
@@ -173,19 +173,19 @@ public class VncRecorderBuildWrapper extends BuildWrapper {
 			listener.fatalError("Feature \"Record VNC session\" works only under Unix/Linux!");
 			return null;
 		}
-		String vncServReplaced = Util.xmlEscape(Util.replaceMacro(vncServ,build.getEnvironment(listener)));
+		String vncServReplaced = Util.replaceMacro(vncServ,build.getEnvironment(listener));
 		if (vncServReplaced.indexOf(":") > 0 && vncServReplaced.split(":")[1].length() == 4 && vncServReplaced.split(":")[1].startsWith("59") )
 		{
 			vncServReplaced = vncServReplaced.replace(":59", ":");
 		}
 		
-		String vncPasswFilePathReplaced = Util.xmlEscape(Util.replaceMacro(vncPasswFilePath,build.getEnvironment(listener)));
+		String vncPasswFilePathReplaced = Util.replaceMacro(vncPasswFilePath,build.getEnvironment(listener));
 		//String outFileBase = build.getEnvironment(listener).get("JOB_NAME") + "_" +  build.getEnvironment(listener).get("BUILD_NUMBER") + ".swf";
 		if (outFileName == null || outFileName.equalsIgnoreCase("null"))
 		{
 			outFileName = "${JOB_NAME}_${BUILD_NUMBER}";
 		}
-		String outFileBase =  Util.xmlEscape(Util.replaceMacro(outFileName,build.getEnvironment(listener))) + ".swf";
+		String outFileBase =  Util.replaceMacro(outFileName,build.getEnvironment(listener)) + ".swf";
 		listener.getLogger().println("Recording from vnc server: " + vncServReplaced);
 		listener.getLogger().println("Using vnc passwd file: " + vncPasswFilePathReplaced);
 		//		listener.getLogger().printf("Using vnc passwd file: %s\n",vncPasswFilePath);	
@@ -230,7 +230,7 @@ public class VncRecorderBuildWrapper extends BuildWrapper {
 				//				env.put("PATH",env.get("PATH"));
 				//				env.put("DISPLAY", vncServ);
 				if (setDisplay && env != null && vncServ != null)
-					env.put("DISPLAY",Util.xmlEscape(Util.replaceMacro(vncServ,env)));
+					env.put("DISPLAY",Util.replaceMacro(vncServ,env));
 			}
 			@Override
 			public boolean tearDown(AbstractBuild build, BuildListener listener)
@@ -350,7 +350,7 @@ public class VncRecorderBuildWrapper extends BuildWrapper {
 			}
 			//	    		List<String> com;
 			DescriptorImpl DESCRIPTOR = Hudson.getInstance().getDescriptorByType(DescriptorImpl.class);
-			String vnc2swf = Util.xmlEscape(Util.nullify(DESCRIPTOR.getVnc2swf()));
+			String vnc2swf = Util.nullify(DESCRIPTOR.getVnc2swf());
 			try {
 				vnc2swf = vnc2swf.equals(CANT_FIND_VNC2SWF) ? "vnc2swf" : vnc2swf;
 				if(!new File(vnc2swf).exists())
