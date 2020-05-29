@@ -149,7 +149,7 @@ public class VncRecorderBuildWrapper extends BuildWrapper {
 			final BuildListener listener) throws IOException, InterruptedException
 	{
 		DescriptorImpl DESCRIPTOR = Hudson.getInstance().getDescriptorByType(DescriptorImpl.class);
-		String vnc2swf = Util.escape(Util.nullify(DESCRIPTOR.getVnc2swf()));
+		String vnc2swf = Util.xmlEscape(Util.nullify(DESCRIPTOR.getVnc2swf()));
 		if(vnc2swf.equals(CANT_FIND_VNC2SWF))
 		{
 			listener.fatalError("VNC Recorder: can't find 'vnc2swf' please check your jenkins global settings!");
@@ -173,19 +173,19 @@ public class VncRecorderBuildWrapper extends BuildWrapper {
 			listener.fatalError("Feature \"Record VNC session\" works only under Unix/Linux!");
 			return null;
 		}
-		String vncServReplaced = Util.escape(Util.replaceMacro(vncServ,build.getEnvironment(listener)));
+		String vncServReplaced = Util.xmlEscape(Util.replaceMacro(vncServ,build.getEnvironment(listener)));
 		if (vncServReplaced.indexOf(":") > 0 && vncServReplaced.split(":")[1].length() == 4 && vncServReplaced.split(":")[1].startsWith("59") )
 		{
 			vncServReplaced = vncServReplaced.replace(":59", ":");
 		}
 		
-		String vncPasswFilePathReplaced = Util.escape(Util.replaceMacro(vncPasswFilePath,build.getEnvironment(listener)));
+		String vncPasswFilePathReplaced = Util.xmlEscape(Util.replaceMacro(vncPasswFilePath,build.getEnvironment(listener)));
 		//String outFileBase = build.getEnvironment(listener).get("JOB_NAME") + "_" +  build.getEnvironment(listener).get("BUILD_NUMBER") + ".swf";
 		if (outFileName == null || outFileName.equalsIgnoreCase("null"))
 		{
 			outFileName = "${JOB_NAME}_${BUILD_NUMBER}";
 		}
-		String outFileBase =  Util.escape(Util.replaceMacro(outFileName,build.getEnvironment(listener))) + ".swf";
+		String outFileBase =  Util.xmlEscape(Util.replaceMacro(outFileName,build.getEnvironment(listener))) + ".swf";
 		listener.getLogger().println("Recording from vnc server: " + vncServReplaced);
 		listener.getLogger().println("Using vnc passwd file: " + vncPasswFilePathReplaced);
 		//		listener.getLogger().printf("Using vnc passwd file: %s\n",vncPasswFilePath);	
@@ -230,7 +230,7 @@ public class VncRecorderBuildWrapper extends BuildWrapper {
 				//				env.put("PATH",env.get("PATH"));
 				//				env.put("DISPLAY", vncServ);
 				if (setDisplay && env != null && vncServ != null)
-					env.put("DISPLAY",Util.escape(Util.replaceMacro(vncServ,env)));
+					env.put("DISPLAY",Util.xmlEscape(Util.replaceMacro(vncServ,env)));
 			}
 			@Override
 			public boolean tearDown(AbstractBuild build, BuildListener listener)
@@ -350,12 +350,12 @@ public class VncRecorderBuildWrapper extends BuildWrapper {
 			}
 			//	    		List<String> com;
 			DescriptorImpl DESCRIPTOR = Hudson.getInstance().getDescriptorByType(DescriptorImpl.class);
-			String vnc2swf = Util.escape(Util.nullify(DESCRIPTOR.getVnc2swf()));
+			String vnc2swf = Util.xmlEscape(Util.nullify(DESCRIPTOR.getVnc2swf()));
 			try {
 				vnc2swf = vnc2swf.equals(CANT_FIND_VNC2SWF) ? "vnc2swf" : vnc2swf;
 				if(!new File(vnc2swf).exists())
 				{
-					return FormValidation.errorWithMarkup("Can't find '" + vnc2swf + "' on your system! Please install <a href=\"http://www.unixuser.org/~euske/vnc2swf/pyvnc2swf.html\">vnc2swf</a> or check your configured vnc2swf path in your jenkins global settings.");
+					return FormValidation.errorWithMarkup("Can't find '" + Util.xmlEscape(vnc2swf) + "' on your system! Please install <a href=\"http://www.unixuser.org/~euske/vnc2swf/pyvnc2swf.html\">vnc2swf</a> or check your configured vnc2swf path in your jenkins global settings.");
 				}
 
 			} catch (Exception e) {
@@ -364,7 +364,7 @@ public class VncRecorderBuildWrapper extends BuildWrapper {
 			}
 
 			//				String vnsServCom = "Example for start of vncserver: " + value.split(":").length == 2 : ;
-			return FormValidation.okWithMarkup("<strong><font color=\"blue\">Please, make sure that your vncserer is running on '" + Util.escape(value)  + "'</font></strong>");
+			return FormValidation.okWithMarkup("<strong><font color=\"blue\">Please, make sure that your vncserer is running on '" + Util.xmlEscape(value)  + "'</font></strong>");
 		}
 
 
