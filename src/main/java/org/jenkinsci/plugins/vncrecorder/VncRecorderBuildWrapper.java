@@ -149,7 +149,7 @@ public class VncRecorderBuildWrapper extends BuildWrapper {
 			final BuildListener listener) throws IOException, InterruptedException
 	{
 		DescriptorImpl DESCRIPTOR = Hudson.getInstance().getDescriptorByType(DescriptorImpl.class);
-		String vnc2swf = Util.escape(Util.nullify(DESCRIPTOR.getVnc2swf()));
+		String vnc2swf = Util.nullify(DESCRIPTOR.getVnc2swf());
 		if(vnc2swf.equals(CANT_FIND_VNC2SWF))
 		{
 			listener.fatalError("VNC Recorder: can't find 'vnc2swf' please check your jenkins global settings!");
@@ -355,7 +355,7 @@ public class VncRecorderBuildWrapper extends BuildWrapper {
 				vnc2swf = vnc2swf.equals(CANT_FIND_VNC2SWF) ? "vnc2swf" : vnc2swf;
 				if(!new File(vnc2swf).exists())
 				{
-					return FormValidation.errorWithMarkup("Can't find '" + vnc2swf + "' on your system! Please install <a href=\"http://www.unixuser.org/~euske/vnc2swf/pyvnc2swf.html\">vnc2swf</a> or check your configured vnc2swf path in your jenkins global settings.");
+					return FormValidation.errorWithMarkup("Can't find '" + Util.xmlEscape(vnc2swf) + "' on your system! Please install <a href=\"http://www.unixuser.org/~euske/vnc2swf/pyvnc2swf.html\">vnc2swf</a> or check your configured vnc2swf path in your jenkins global settings.");
 				}
 
 			} catch (Exception e) {
@@ -364,7 +364,7 @@ public class VncRecorderBuildWrapper extends BuildWrapper {
 			}
 
 			//				String vnsServCom = "Example for start of vncserver: " + value.split(":").length == 2 : ;
-			return FormValidation.okWithMarkup("<strong><font color=\"blue\">Please, make sure that your vncserer is running on '" + value  + "'</font></strong>");
+			return FormValidation.okWithMarkup("<strong><font color=\"blue\">Please, make sure that your vncserer is running on '" + Util.xmlEscape(value)  + "'</font></strong>");
 		}
 
 
