@@ -9,7 +9,7 @@
 
 	<groupId>org.jenkins-ci.plugins</groupId>
 	<artifactId>vncrecorder</artifactId>
-	<version>1.35</version>
+	<version>1.36-SNAPSHOT</version>
 	<packaging>hpi</packaging>
 
 	<licenses>
@@ -41,7 +41,7 @@
 		<connection>scm:github.com:jenkinsci/vncrecorder-plugin.git</connection>
 		<developerConnection>scm:git:https://github.com/jenkinsci/vncrecorder-plugin.git</developerConnection>
 		<url>https://github.com/jenkinsci/vncrecorder-plugin</url>
-    <tag>vncrecorder-1.35</tag>
+    <tag>HEAD</tag>
   </scm>
 	
 	<url>http://wiki.jenkins-ci.org/display/JENKINS/VncRecorder+Plugin</url>
